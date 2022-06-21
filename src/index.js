@@ -16,10 +16,10 @@ class App extends React.Component {
 
   changePage() {
     this.setState({ pageDisplay: this.state.pageDisplay + 1 });
-    console.log(this.state.pageDisplay);
   }
 
   currentPage() {
+    console.log(this.state.pageDisplay);
     switch (this.state.pageDisplay) {
       case 0:
         return <LoginPage changePage={this.changePage} />;
@@ -30,8 +30,7 @@ class App extends React.Component {
   }
 
   render() {
-    return <MainPage changePage={this.changePage} />;
-    // this.currentPage();
+    return this.currentPage();
   }
 }
 

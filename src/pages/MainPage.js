@@ -8,9 +8,7 @@ export default class MainPage extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit() {
-    //to enter to MainPage
-  }
+  handleSubmit() {}
 
   render() {
     return <NewIdeaTab />;

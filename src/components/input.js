@@ -15,6 +15,9 @@ export default class Input extends React.Component {
           value={this.props.value}
           onSubmit={this.props.onSubmit}
           maxLength={this.props.maxLength}
+          required={this.props.required}
+          onClick={this.props.onClick}
+          autoComplete="off"
         />
       </div>
     );
