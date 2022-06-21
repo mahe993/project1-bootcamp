@@ -1,10 +1,6 @@
 import React from "react";
 
 export default class Input extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div>
@@ -15,6 +11,9 @@ export default class Input extends React.Component {
           type={this.props.type}
           name={this.props.for}
           id={this.props.for}
+          placeholder={this.props.placeholder}
+          value={this.props.value}
+          onSubmit={this.props.onSubmit}
         />
       </div>
     );
