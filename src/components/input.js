@@ -14,6 +14,7 @@ export default class Input extends React.Component {
           placeholder={this.props.placeholder}
           value={this.props.value}
           onSubmit={this.props.onSubmit}
+          maxLength={this.props.maxLength}
         />
       </div>
     );

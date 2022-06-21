@@ -1,5 +1,6 @@
 import React from "react";
 import Input from "../components/input";
+import NewIdeaTab from "../tabs/NewIdeaTab";
 
 export default class MainPage extends React.Component {
   constructor(props) {
@@ -12,27 +13,6 @@ export default class MainPage extends React.Component {
   }
 
   render() {
-    return (
-      <form>
-        <Input
-          for="username"
-          label="Username"
-          type="text"
-          placeholder="Arthur Shelby"
-        />
-        <Input
-          for="password"
-          label="Password"
-          type="text"
-          placeholder="Enter password"
-        />
-        <Input
-          for="loginSubmit"
-          type="submit"
-          value="Submit Idea"
-          onSubmit={this.handleSubmit}
-        />
-      </form>
-    );
+    return <NewIdeaTab />;
   }
 }
