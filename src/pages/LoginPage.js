@@ -22,13 +22,14 @@ export default class LoginPage extends React.Component {
       return alert("No spaces allowed in username/password");
     }
     //log account info
-    this.state.accounts.push({
+    const userInfo = {
       username: e.target[0].value,
       password: e.target[1].value,
       accountBalance: 0,
-    });
+    };
+    this.props.logUserInfo(userInfo);
     //enter to MainPage
-    return this.props.changePage();
+    this.props.changePage();
   }
 
   togglePasswordVisibility() {

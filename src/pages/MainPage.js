@@ -1,6 +1,7 @@
 import React from "react";
 import Input from "../components/input";
 import NewIdeaTab from "../tabs/NewIdeaTab";
+import AccountPage from "./AccountPage";
 
 export default class MainPage extends React.Component {
   constructor(props) {
@@ -11,6 +12,11 @@ export default class MainPage extends React.Component {
   handleSubmit() {}
 
   render() {
-    return <NewIdeaTab />;
+    return (
+      <div>
+        <AccountPage userInfo={this.props.userInfo} />
+        <NewIdeaTab />
+      </div>
+    );
   }
 }

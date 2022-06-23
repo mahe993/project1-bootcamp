@@ -10,22 +10,38 @@ class App extends React.Component {
     super(props);
     this.state = {
       pageDisplay: 0,
+      accounts: [],
     };
     this.changePage = this.changePage.bind(this);
+    this.logUserInfo = this.logUserInfo.bind(this);
   }
 
   changePage() {
     this.setState({ pageDisplay: this.state.pageDisplay + 1 });
   }
 
+  logUserInfo(userObj) {
+    this.state.accounts.push(userObj);
+  }
+
   currentPage() {
-    console.log(this.state.pageDisplay);
     switch (this.state.pageDisplay) {
       case 0:
-        return <LoginPage changePage={this.changePage} />;
+        return (
+          <LoginPage
+            changePage={this.changePage}
+            logUserInfo={this.logUserInfo}
+            userInfo={this.state.accounts}
+          />
+        );
 
       case 1:
-        return <MainPage changePage={this.changePage} />;
+        return (
+          <MainPage
+            changePage={this.changePage}
+            userInfo={this.state.accounts}
+          />
+        );
     }
   }
 
