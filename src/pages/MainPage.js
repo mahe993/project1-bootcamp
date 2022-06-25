@@ -1,5 +1,4 @@
 import React from "react";
-import Input from "../components/input";
 import NewIdeaTab from "../tabs/NewIdeaTab";
 import AccountPage from "./AccountPage";
 

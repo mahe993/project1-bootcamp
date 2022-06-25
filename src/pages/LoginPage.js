@@ -1,30 +1,50 @@
 import React from "react";
-import Input from "../components/input";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import { Grid } from "@mui/material";
 
 export default class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      passwordType: "password",
-      accounts: [],
+      showPassword: false,
+      showError: false,
+      errorMessage: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.togglePasswordVisibility = this.togglePasswordVisibility.bind(this);
   }
 
   handleSubmit(e) {
-    console.log(e.target[0].value);
+    e.preventDefault();
     //username and password validation
+    if (e.target[0].value === "" || e.target[3].value === "") {
+      return this.setState({
+        showError: true,
+        errorMessage: "Please enter a valid Username/Password",
+      });
+    }
     if (
       e.target[0].value.indexOf(" ") >= 0 ||
-      e.target[1].value.indexOf(" ") >= 0
+      e.target[3].value.indexOf(" ") >= 0
     ) {
-      return alert("No spaces allowed in username/password");
+      return this.setState({
+        showError: true,
+        errorMessage: "No spacings allowed in username/password",
+      });
     }
+    this.setState({
+      showError: false,
+      errorMessage: false,
+    });
     //log account info
     const userInfo = {
       username: e.target[0].value,
-      password: e.target[1].value,
+      password: e.target[3].value,
       accountBalance: 0,
     };
     this.props.logUserInfo(userInfo);
@@ -33,38 +53,69 @@ export default class LoginPage extends React.Component {
   }
 
   togglePasswordVisibility() {
-    if (this.state.passwordType === "password") {
-      this.setState({ passwordType: "text" });
-    } else {
-      this.setState({ passwordType: "password" });
-    }
+    this.setState({ showPassword: !this.state.showPassword });
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <Input
-          for="username"
-          label="Username"
-          type="text"
-          placeholder="Tommy Shelby"
-          required="required"
-        />
-        <Input
-          for="password"
-          label="Password"
-          type={this.state.passwordType}
-          placeholder="Enter password"
-          required="required"
-        />
-        <Input
-          for="showPassword"
-          type="checkbox"
-          onClick={this.togglePasswordVisibility}
-          label="Show Password"
-        />
-        <Input for="loginSubmit" type="submit" value="Login/Signup" />
-      </form>
+      <Grid
+        container
+        xs={6}
+        justifyContent="center"
+        alignItems="center"
+        sx={{ border: 1 }}
+      >
+        <form onSubmit={this.handleSubmit}>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              label="Username"
+              placeholder="TommyShelby93"
+              error={this.state.showError}
+              helperText={this.state.errorMessage}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccountCircle />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              label="Password"
+              placeholder="QWEqwe123!@#"
+              error={this.state.showError}
+              helperText={this.state.errorMessage}
+              type={this.state.showPassword ? "text" : "password"}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={this.togglePasswordVisibility}
+                      edge="end"
+                    >
+                      {this.state.showPassword ? (
+                        <VisibilityOff />
+                      ) : (
+                        <Visibility />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField type="submit" value="Login/Signup" />
+          </Grid>
+        </form>
+      </Grid>
     );
   }
 }
