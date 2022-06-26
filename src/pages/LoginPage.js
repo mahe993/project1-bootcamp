@@ -45,7 +45,7 @@ export default class LoginPage extends React.Component {
     const userInfo = {
       username: e.target[0].value,
       password: e.target[3].value,
-      accountBalance: 0,
+      accountBalance: 100,
     };
     this.props.logUserInfo(userInfo);
     //enter to MainPage
@@ -60,7 +60,6 @@ export default class LoginPage extends React.Component {
     return (
       <Grid
         container
-        xs={6}
         justifyContent="center"
         alignItems="center"
         sx={{ border: 1 }}
