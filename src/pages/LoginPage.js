@@ -67,7 +67,6 @@ export default class LoginPage extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <Grid item xs={12}>
             <TextField
-              variant="outlined"
               margin="normal"
               label="Username"
               placeholder="TommyShelby93"
@@ -84,7 +83,6 @@ export default class LoginPage extends React.Component {
           </Grid>
           <Grid item xs={12}>
             <TextField
-              variant="outlined"
               margin="normal"
               label="Password"
               placeholder="QWEqwe123!@#"
