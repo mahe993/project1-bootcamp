@@ -35,14 +35,15 @@ export default class AccountMenu extends React.Component {
           }}
         >
           {this.drawerList.map((x) => (
-            <ListItem key={x} button>
-              <ListItemText
-                primary={x}
-                // sx={{
-                //   width: "auto",
-                //   maxWidth: 2500,
-                // }}
-              />
+            <ListItem
+              key={x}
+              button
+              // sx={{
+              //   width: "auto",
+              //   maxWidth: 2500,
+              // }}
+            >
+              <ListItemText primary={x} />
             </ListItem>
           ))}
         </Drawer>
