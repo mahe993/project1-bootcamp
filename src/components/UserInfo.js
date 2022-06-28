@@ -11,7 +11,7 @@ export default class UserInfo extends React.Component {
 
   render() {
     return (
-      <Grid container spacing={1}>
+      <Grid container spacing={1} sx={{ p: "5%" }}>
         <Grid item>
           <Avatar
             alt={this.state.accountInfo.username}

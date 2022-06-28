@@ -1,13 +1,14 @@
 /* eslint-disable default-case */
 import React from "react";
 import UserInfo from "../components/UserInfo";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import AccountMenu from "../drawers/AccountMenu";
 import MainTab from "../tabs/MainTab";
 import PatentsPage from "./PatentsPage";
 import NewIdeaPage from "./NewIdeaPage";
 import InventoryPage from "./InventoryPage";
 import MarketplacePage from "./MarketplacePage";
+import styled from "@emotion/styled";
 
 export default class MainPage extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ export default class MainPage extends React.Component {
   }
 
   handleIdea(ideaType, idea) {
+    console.log(ideaType, idea);
     switch (ideaType) {
       case "pending":
         this.state.ideas.pending.push(idea);
@@ -64,21 +66,29 @@ export default class MainPage extends React.Component {
 
   render() {
     return (
-      <Grid container direction="column" sx={{ border: 1, maxWidth: "100vw" }}>
-        <Grid item container>
-          <Grid item xs={3}>
-            <UserInfo userInfo={this.props.userInfo} />
+      <Box>
+        <Grid container direction="column" sx={{ width: "100%" }}>
+          <Grid item xs={12} lg={8} container>
+            <Grid item xs={6}>
+              <UserInfo userInfo={this.props.userInfo} />
+            </Grid>
+            <Grid item xs={5}></Grid>
+            <Grid item xs={1} alignSelf="center">
+              <AccountMenu />
+            </Grid>
           </Grid>
-          <Grid item xs={7}></Grid>
-          <Grid item xs={2}>
-            <AccountMenu />
+          <TestGrid item xs={12}>
+            <MainTab onChange={this.changeTab} value={this.state.tabDisplay} />
+          </TestGrid>
+          <Grid item xs={12} lg={8}>
+            {this.currentTabDisplay()}
           </Grid>
         </Grid>
-        <Grid item>
-          <MainTab onChange={this.changeTab} value={this.state.tabDisplay} />
-        </Grid>
-        <Grid item>{this.currentTabDisplay()}</Grid>
-      </Grid>
+      </Box>
     );
   }
 }
+
+const TestGrid = styled(Grid)`
+  max-width: 100%;
+`;

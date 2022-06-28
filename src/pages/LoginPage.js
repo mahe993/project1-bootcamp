@@ -58,13 +58,14 @@ export default class LoginPage extends React.Component {
 
   render() {
     return (
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        sx={{ border: 1 }}
-      >
-        <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          direction="column"
+          sx={{ border: 1 }}
+        >
           <Grid item xs={12}>
             <TextField
               margin="normal"
@@ -111,8 +112,8 @@ export default class LoginPage extends React.Component {
           <Grid item xs={12}>
             <TextField type="submit" value="Login/Signup" />
           </Grid>
-        </form>
-      </Grid>
+        </Grid>
+      </form>
     );
   }
 }
