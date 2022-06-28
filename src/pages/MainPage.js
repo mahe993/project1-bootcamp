@@ -66,25 +66,23 @@ export default class MainPage extends React.Component {
 
   render() {
     return (
-      <Box>
-        <Grid container direction="column" sx={{ width: "100%" }}>
-          <Grid item xs={12} lg={8} container>
-            <Grid item xs={6}>
-              <UserInfo userInfo={this.props.userInfo} />
-            </Grid>
-            <Grid item xs={5}></Grid>
-            <Grid item xs={1} alignSelf="center">
-              <AccountMenu />
-            </Grid>
+      <Grid container direction="column" sx={{ width: "100%" }}>
+        <Grid item xs={12} lg={8} container>
+          <Grid item xs={6}>
+            <UserInfo userInfo={this.props.userInfo} />
           </Grid>
-          <TestGrid item xs={12}>
-            <MainTab onChange={this.changeTab} value={this.state.tabDisplay} />
-          </TestGrid>
-          <Grid item xs={12} lg={8}>
-            {this.currentTabDisplay()}
+          <Grid item xs={5}></Grid>
+          <Grid item xs={1} alignSelf="center">
+            <AccountMenu />
           </Grid>
         </Grid>
-      </Box>
+        <TestGrid item xs={12}>
+          <MainTab onChange={this.changeTab} value={this.state.tabDisplay} />
+        </TestGrid>
+        <Grid item xs={12} lg={8}>
+          {this.currentTabDisplay()}
+        </Grid>
+      </Grid>
     );
   }
 }
