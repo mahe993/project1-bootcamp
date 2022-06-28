@@ -156,7 +156,7 @@ const StyledForm = styled.form`
   margin: 0 auto;
 `;
 
-const StyledText = styled(TextField)`
+export const StyledText = styled(TextField)`
   & > .MuiOutlinedInput-root {
     & > .MuiOutlinedInput-input::placeholder {
       font-style: italic;

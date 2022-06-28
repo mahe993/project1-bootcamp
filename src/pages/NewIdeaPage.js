@@ -7,6 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import EmojiObjectsOutlinedIcon from "@mui/icons-material/EmojiObjectsOutlined";
+import { StyledText } from "./LoginPage";
+import styled from "@emotion/styled";
 
 export default class NewIdeaPage extends React.Component {
   constructor(props) {
@@ -60,90 +62,126 @@ export default class NewIdeaPage extends React.Component {
   render() {
     return (
       <Grid container direction="column" alignItems="center">
-        <Grid item xs={4}>
+        <Grid item sx={{ mt: 1 }}>
           <EmojiObjectsOutlinedIcon fontSize="large" />
         </Grid>
-        <Grid item xs={12} sx={{ width: "80%" }}>
-          <form onSubmit={this.handleSubmit} sx={{ width: "100%", m: 0 }}>
-            <TextField
-              onChange={this.handleChange}
-              required
-              type="text"
-              id="ideaName"
-              label="Idea Name"
-              focused
-              fullWidth={true}
-              size="small"
-              margin="dense"
-              value={this.state.ideaNameValue}
-              error={this.state.ideaNameValue === "" ? true : false}
-            />
-            <TextField
-              onChange={this.handleChange}
-              required
-              type="text"
-              id="ideaSummary"
-              label="Idea Summary"
-              focused
-              fullWidth={true}
-              size="small"
-              multiline
-              maxRows={2}
-              margin="dense"
-              placeholder="Enter a summary of your idea here!&#10;keep it short and digestable like a tagline!"
-              value={this.state.ideaSummaryValue}
-              error={this.state.ideaSummaryValue === "" ? true : false}
-            />
-            <TextField
-              onChange={this.handleChange}
-              required
-              type="text"
-              id="ideaDescription"
-              label="Idea Description"
-              focused
-              fullWidth={true}
-              size="small"
-              multiline
-              minRows={10}
-              maxRows={10}
-              margin="dense"
-              placeholder="Give a detailed explaination of your how idea works!&#10;Make your idea descriptions concise and to the point, best to use point forms as you go along describing each feature!"
-              value={this.state.ideaDescriptionValue}
-              error={this.state.ideaDescriptionValue === "" ? true : false}
-            />
-            <TextField
-              onChange={this.handleChange}
-              type="text"
-              id="ideaPrice"
-              label="Sale Price"
-              focused
-              fullWidth={true}
-              size="small"
-              margin="dense"
-              value={this.state.ideaPriceValue}
-              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">$</InputAdornment>
-                ),
-              }}
-            />
-            <Box className="termsAndConditionsText">
-              <Typography>- Idea applications costs $10/- ea.</Typography>
-              <Typography>
-                - If sale price is not entered, idea is not considered applied
-                and will be saved as a draft in your inventory.
-              </Typography>
-              <Typography>
-                - All applications will be reviewed individually by Ideas
-                Market.
-              </Typography>
-              <Typography>- Read complete terms and conditions here</Typography>
-            </Box>
-            <TextField type="submit" value="APPLY" id="applyButton" />
-          </form>
+        <Grid item>
+          <ResponsiveForm onSubmit={this.handleSubmit}>
+            <Grid container direction="column" alignItems="center">
+              <StyledText
+                onChange={this.handleChange}
+                required
+                type="text"
+                id="ideaName"
+                label="Idea Name"
+                focused
+                fullWidth={true}
+                size="small"
+                margin="normal"
+                value={this.state.ideaNameValue}
+                error={this.state.ideaNameValue === "" ? true : false}
+              />
+              <StyledText
+                onChange={this.handleChange}
+                required
+                type="text"
+                id="ideaSummary"
+                label="Idea Summary"
+                focused
+                fullWidth={true}
+                size="small"
+                multiline
+                maxRows={2}
+                margin="normal"
+                placeholder="Enter a summary of your idea here!&#10;keep it short and digestable like a tagline!"
+                value={this.state.ideaSummaryValue}
+                error={this.state.ideaSummaryValue === "" ? true : false}
+              />
+              <StyledText
+                onChange={this.handleChange}
+                required
+                type="text"
+                id="ideaDescription"
+                label="Idea Description"
+                focused
+                fullWidth={true}
+                size="small"
+                multiline
+                minRows={10}
+                maxRows={10}
+                margin="normal"
+                placeholder="Give a detailed explaination of your how idea works!&#10;Make your idea descriptions concise and to the point, best to use point forms as you go along describing each feature!"
+                value={this.state.ideaDescriptionValue}
+                error={this.state.ideaDescriptionValue === "" ? true : false}
+              />
+              <StyledText
+                onChange={this.handleChange}
+                type="text"
+                id="ideaPrice"
+                label="Sale Price"
+                focused
+                fullWidth={true}
+                size="small"
+                margin="normal"
+                value={this.state.ideaPriceValue}
+                inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">$</InputAdornment>
+                  ),
+                }}
+              />
+              <Grid item>
+                <TermsAndConditionsText>
+                  - Idea applications costs $10/- ea.
+                </TermsAndConditionsText>
+                <TermsAndConditionsText>
+                  - If sale price is not entered, idea is not considered applied
+                  and will be saved as a draft in your inventory.
+                </TermsAndConditionsText>
+                <TermsAndConditionsText>
+                  - All applications will be reviewed individually by Ideas
+                  Market.
+                </TermsAndConditionsText>
+                <TermsAndConditionsText>
+                  - Read complete terms and conditions here
+                </TermsAndConditionsText>
+              </Grid>
+              <Grid item>
+                <StyledApply
+                  type="submit"
+                  value="APPLY"
+                  id="applyButton"
+                  sx={{ mt: 1.5 }}
+                />
+              </Grid>
+            </Grid>
+          </ResponsiveForm>
         </Grid>
       </Grid>
     );
   }
 }
+
+const ResponsiveForm = styled.form`
+  @media only screen and (max-width: 800px) {
+    max-width: 95vw;
+    margin: 0 auto;
+  }
+`;
+
+const StyledApply = styled(TextField)`
+  & > .MuiOutlinedInput-root {
+    & > .MuiOutlinedInput-input {
+      padding: 10px;
+    }
+  }
+`;
+
+const TermsAndConditionsText = styled(Typography)`
+  font-style: italic;
+  font-size: 12px;
+  @media only screen and (max-width: 400px) {
+    font-size: 10px;
+  }
+`;

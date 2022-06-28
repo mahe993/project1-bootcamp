@@ -67,7 +67,7 @@ export default class MainPage extends React.Component {
   render() {
     return (
       <Grid container direction="column" sx={{ width: "100%" }}>
-        <Grid item xs={12} lg={8} container>
+        <Grid item container>
           <Grid item xs={6}>
             <UserInfo userInfo={this.props.userInfo} />
           </Grid>
@@ -76,17 +76,16 @@ export default class MainPage extends React.Component {
             <AccountMenu />
           </Grid>
         </Grid>
-        <TestGrid item xs={12}>
+        <TabGrid item>
           <MainTab onChange={this.changeTab} value={this.state.tabDisplay} />
-        </TestGrid>
-        <Grid item xs={12} lg={8}>
-          {this.currentTabDisplay()}
-        </Grid>
+        </TabGrid>
+        <Grid item>{this.currentTabDisplay()}</Grid>
       </Grid>
     );
   }
 }
 
-const TestGrid = styled(Grid)`
+const TabGrid = styled(Grid)`
   max-width: 100%;
+  margin-top: 6px;
 `;
