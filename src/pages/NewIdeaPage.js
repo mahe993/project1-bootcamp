@@ -1,8 +1,10 @@
 import React from "react";
 import {
+  Alert,
   Box,
   Grid,
   InputAdornment,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -18,14 +20,24 @@ export default class NewIdeaPage extends React.Component {
       ideaSummaryValue: "",
       ideaDescriptionValue: "",
       ideaPriceValue: "",
+      openSnackbar: false,
+      snackbarMessage: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.closeSnackbar = this.closeSnackbar.bind(this);
   }
 
   handleChange(e) {
     console.log(e.target.value);
     this.setState({ [`${e.target.id}Value`]: e.target.value });
+  }
+
+  closeSnackbar() {
+    this.setState({
+      openSnackbar: false,
+      snackbarMessage: "",
+    });
   }
 
   componentDidUpdate() {
@@ -46,11 +58,23 @@ export default class NewIdeaPage extends React.Component {
 
     if (idea.ideaPrice === 0 || idea.ideaPrice === "") {
       type = "draft";
+      this.setState({
+        snackbarMessage: "Saved as draft!",
+      });
+    } else {
+      this.setState({
+        snackbarMessage: "Your application is successful!",
+      });
     }
     //pass idea back to MainPage state
-    console.log(type);
     this.props.onSubmit(type, idea);
-    //set fields back to blank
+
+    //open Snackbar
+    this.setState({
+      openSnackbar: true,
+    });
+
+    //set fields back to start
     this.setState({
       ideaNameValue: "",
       ideaSummaryValue: "",
@@ -144,7 +168,10 @@ export default class NewIdeaPage extends React.Component {
                   Market.
                 </TermsAndConditionsText>
                 <TermsAndConditionsText>
-                  - Read complete terms and conditions here
+                  - Read complete terms and conditions{" "}
+                  <TermsAndConditionsText as="span" sx={{ fontWeight: "bold" }}>
+                    here
+                  </TermsAndConditionsText>
                 </TermsAndConditionsText>
               </Grid>
               <Grid item>
@@ -155,6 +182,20 @@ export default class NewIdeaPage extends React.Component {
                   sx={{ mt: 1.5 }}
                 />
               </Grid>
+              <Snackbar
+                open={this.state.openSnackbar}
+                autoHideDuration={2000}
+                onClose={this.closeSnackbar}
+              >
+                <Alert
+                  variant="filled"
+                  onClose={this.closeSnackbar}
+                  severity="success"
+                  sx={{ borderRadius: 5 }}
+                >
+                  {this.state.snackbarMessage}
+                </Alert>
+              </Snackbar>
             </Grid>
           </ResponsiveForm>
         </Grid>
