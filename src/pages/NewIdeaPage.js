@@ -65,6 +65,11 @@ export default class NewIdeaPage extends React.Component {
       this.setState({
         snackbarMessage: "Your application is successful!",
       });
+      //deduct $10
+      this.props.logUserInfo({
+        ...this.props.userInfo,
+        accountBalance: this.props.userInfo.accountBalance - 10,
+      });
     }
     //pass idea back to MainPage state
     this.props.onSubmit(type, idea);
@@ -93,6 +98,7 @@ export default class NewIdeaPage extends React.Component {
           <ResponsiveForm onSubmit={this.handleSubmit}>
             <Grid container direction="column" alignItems="center">
               <StyledText
+                autoComplete="off"
                 onChange={this.handleChange}
                 required
                 type="text"

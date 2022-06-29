@@ -15,18 +15,58 @@ export default class MainPage extends React.Component {
     super(props);
     this.state = {
       tabDisplay: 0,
-      ideas: { pending: [], draft: [], listed: [], bought: [] },
+      ideas: {
+        pending: [],
+        draft: [],
+        listed: [
+          {
+            ideaName: "Make-up Shop",
+            ideaSummary: `Storefront for people to get their make-up done for the day!`,
+            ideaDescription: `Set up shop at Orchard\n\nHire many makeup artists\n\nOpen shop wait for customers!`,
+            ideaPrice: 8888,
+          },
+          {
+            ideaName: "Bubbletack",
+            ideaSummary: "The whole new edible blutack!",
+            ideaDescription: `Something like bubblegum except after you are done with it, use it as a blutack instead of sticking it everywhere`,
+            ideaPrice: 99998,
+          },
+        ],
+        bought: [
+          {
+            ideaName: "Very Expensive Idea",
+            ideaSummary:
+              "The whole idea behind this idea is that it is expensive!",
+            ideaDescription:
+              "sell this empty idea at a premium as marketing psychology dictates that a premium price imposes a premium look and feel unto the customer",
+            ideaPrice: 99,
+          },
+        ],
+      },
     };
     this.changeTab = this.changeTab.bind(this);
     this.handleIdea = this.handleIdea.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   changeTab(e, newTab) {
     this.setState({ tabDisplay: newTab });
   }
 
+  handleRemove(removeIdeaName) {
+    let ideaIndex = 0;
+    for (let i = 0; i < this.state.ideas.listed.length; i += 1) {
+      if (this.state.ideas.listed[i].ideaName === removeIdeaName) {
+        ideaIndex = i;
+        break;
+      }
+    }
+    const newListedArr = [...this.state.ideas.listed];
+    newListedArr.splice(ideaIndex, 1);
+    this.setState({ ideas: { ...this.state.ideas, listed: newListedArr } });
+  }
+
   handleIdea(ideaType, idea) {
-    console.log(ideaType, idea);
     switch (ideaType) {
       case "pending":
         this.state.ideas.pending.push(idea);
@@ -49,7 +89,13 @@ export default class MainPage extends React.Component {
   currentTabDisplay() {
     switch (this.state.tabDisplay) {
       case 0:
-        return <NewIdeaPage onSubmit={this.handleIdea} />;
+        return (
+          <NewIdeaPage
+            onSubmit={this.handleIdea}
+            logUserInfo={this.props.logUserInfo}
+            userInfo={this.props.userInfo}
+          />
+        );
 
       case 1:
         return (
@@ -57,7 +103,15 @@ export default class MainPage extends React.Component {
         );
 
       case 2:
-        return <MarketplacePage onSubmit={this.handleIdea} />;
+        return (
+          <MarketplacePage
+            ideas={this.state.ideas.listed}
+            logUserInfo={this.props.logUserInfo}
+            userInfo={this.props.userInfo}
+            buyIdea={this.handleIdea}
+            removeIdea={this.handleRemove}
+          />
+        );
 
       case 3:
         return <PatentsPage />;
@@ -73,7 +127,7 @@ export default class MainPage extends React.Component {
           </Grid>
           <Grid item xs={5}></Grid>
           <Grid item xs={1} alignSelf="center">
-            <AccountMenu />
+            <AccountMenu logUserInfo={this.props.logUserInfo} />
           </Grid>
         </Grid>
         <TabGrid item>

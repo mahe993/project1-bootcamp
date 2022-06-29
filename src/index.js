@@ -10,7 +10,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       pageDisplay: 0,
-      accounts: [],
+      currentUser: "",
     };
     this.changePage = this.changePage.bind(this);
     this.logUserInfo = this.logUserInfo.bind(this);
@@ -21,7 +21,7 @@ class App extends React.Component {
   }
 
   logUserInfo(userObj) {
-    this.state.accounts.push(userObj);
+    this.setState({ currentUser: userObj });
   }
 
   currentPage() {
@@ -31,7 +31,6 @@ class App extends React.Component {
           <LoginPage
             changePage={this.changePage}
             logUserInfo={this.logUserInfo}
-            userInfo={this.state.accounts}
           />
         );
 
@@ -39,7 +38,8 @@ class App extends React.Component {
         return (
           <MainPage
             changePage={this.changePage}
-            userInfo={this.state.accounts}
+            userInfo={this.state.currentUser}
+            logUserInfo={this.logUserInfo}
           />
         );
     }

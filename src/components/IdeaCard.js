@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import React from "react";
 import {
   Avatar,
@@ -17,15 +18,20 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import CommentIcon from "@mui/icons-material/Comment";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import styled from "@emotion/styled";
 
 export default class IdeaCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       openDialog: false,
+      likeButton: false,
     };
     this.handleDialog = this.handleDialog.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
+    this.clickLike = this.clickLike.bind(this);
+    this.handleBuy = this.handleBuy.bind(this);
   }
 
   handleDialog() {
@@ -36,9 +42,63 @@ export default class IdeaCard extends React.Component {
     this.setState({ openDialog: false });
   }
 
+  clickLike() {
+    this.setState({ likeButton: !this.state.likeButton });
+  }
+
+  handleBuy(e) {
+    console.log(e);
+    //deduct sale price
+    this.props.logUserInfo({
+      ...this.props.userInfo,
+      accountBalance:
+        this.props.userInfo.accountBalance - this.props.idea.ideaPrice,
+    });
+
+    //move the idea to bought inventory
+    this.props.buyIdea("bought", this.props.idea);
+    this.closeDialog();
+    this.props.removeIdea(this.props.idea.ideaName);
+  }
+
+  dynamicDialogActionButtons() {
+    switch (this.props.cardType) {
+      case "pending":
+        return <Button onClick={this.closeDialog}>EDIT</Button>;
+
+      case "draft":
+        return (
+          <>
+            <Button onClick={this.closeDialog}>
+              <DeleteOutlineIcon />
+            </Button>
+            <Button onClick={this.closeDialog}>EDIT</Button>
+          </>
+        );
+
+      case "listed":
+        return (
+          <>
+            <Button onClick={this.closeDialog}>
+              <DeleteOutlineIcon />
+            </Button>
+            <Button onClick={this.closeDialog}>EDIT</Button>
+          </>
+        );
+
+      case "bought":
+        return <Button onClick={this.closeDialog}>PATENTS</Button>;
+
+      case "price":
+        return <Button onClick={this.handleBuy}>BUY</Button>;
+    }
+  }
+
   render() {
     return (
-      <Card sx={{ maxWidth: "100%" }}>
+      <FlexCard
+        sx={{ maxWidth: "100%", minWidth: "200px", minHeight: "265px", m: 0.2 }}
+      >
         <CardHeader
           avatar={
             <Avatar
@@ -52,17 +112,19 @@ export default class IdeaCard extends React.Component {
           <Typography variant="body2" color="text.secondary">
             {this.props.idea.ideaSummary}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {this.props.cardType}
+          <br />
+          <ItalicsBoldText variant="body2" color="text.secondary">
+            {this.props.cardType.toUpperCase()}
             {this.props.cardType === "listed" ||
-            this.props.cardType === "bought"
-              ? `:${this.props.idea.ideaPrice}`
+            this.props.cardType === "bought" ||
+            this.props.cardType === "price"
+              ? `: $${this.props.idea.ideaPrice}`
               : null}
-          </Typography>
+          </ItalicsBoldText>
         </CardContent>
-        <CardActions disableSpacing>
-          <IconButton>
-            <FavoriteIcon />
+        <CardActions disableSpacing sx={{ mt: "auto" }}>
+          <IconButton onClick={this.clickLike}>
+            {this.state.likeButton ? <LikedIcon /> : <FavoriteIcon />}
           </IconButton>
           <IconButton>
             <ShareIcon />
@@ -70,27 +132,65 @@ export default class IdeaCard extends React.Component {
           <IconButton>
             <CommentIcon />
           </IconButton>
-          {/* insert dialog */}
           <Button onClick={this.handleDialog} sx={{ ml: "auto" }}>
             DETAILS
           </Button>
-          <Dialog open={this.state.openDialog} onClose={this.closeDialog}>
+          <Dialog
+            open={this.state.openDialog}
+            onClose={this.closeDialog}
+            fullWidth
+          >
             <DialogTitle>{this.props.idea.ideaName}</DialogTitle>
             <DialogContent dividers>
               <DialogContentText tabIndex={-1}>
-                <Typography>Idea Summary:</Typography>
-                <Typography>{this.props.idea.ideaSummary}</Typography>
-                <Typography>Idea Description:</Typography>
-                <Typography>{this.props.idea.ideaDescription}</Typography>
-                <Typography>Price:{this.props.idea.ideaPrice}</Typography>
+                <TextHeader>Idea Summary:</TextHeader>
+                <Typography>
+                  {this.props.idea.ideaSummary}
+                  <br />
+                  <br />
+                  Cras mattis consectetur purus sit amet fermentum. Cras justo
+                  odio, dapibus ac facilisis in, egestas eget quam.
+                </Typography>
+                <br />
+                <TextHeader>Idea Description:</TextHeader>
+                <Typography>
+                  {this.props.idea.ideaDescription}
+                  <br />
+                  <br />
+                  Cras mattis consectetur purus sit amet fermentum. Cras justo
+                  odio, dapibus ac facilisis in, egestas eget quam. Morbi leo
+                  risus, porta ac consectetur ac, vestibulum at eros. Praesent
+                  commodo cursus magna, vel scelerisque nisl consectetur et.
+                </Typography>
+                <br />
+                <TextHeader>Price:</TextHeader>
+                <Typography>${this.props.idea.ideaPrice}</Typography>
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.closeDialog}>BUY</Button>
+              {this.dynamicDialogActionButtons()}
+              <Button onClick={this.closeDialog}>CLOSE</Button>
             </DialogActions>
           </Dialog>
         </CardActions>
-      </Card>
+      </FlexCard>
     );
   }
 }
+
+const TextHeader = styled(Typography)`
+  font-weight: bold;
+`;
+
+const ItalicsBoldText = styled(TextHeader)`
+  font-style: italic;
+`;
+
+const LikedIcon = styled(FavoriteIcon)`
+  color: red;
+`;
+
+const FlexCard = styled(Card)`
+  display: flex;
+  flex-direction: column;
+`;

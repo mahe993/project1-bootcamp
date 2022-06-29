@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import React from "react";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import {
@@ -6,6 +7,7 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
+import IdeaCard from "../components/IdeaCard";
 
 export default class InventoryPage extends React.Component {
   constructor(props) {
@@ -15,10 +17,75 @@ export default class InventoryPage extends React.Component {
     };
     this.setCardType = this.setCardType.bind(this);
   }
+
   setCardType(e, cardType) {
-    this.setState({
-      cardTypeDisplay: cardType,
-    });
+    if (cardType === null) {
+      this.setState({ cardTypeDisplay: "pending" });
+    } else {
+      this.setState({
+        cardTypeDisplay: cardType,
+      });
+    }
+  }
+
+  currentCardDisplay() {
+    switch (this.state.cardTypeDisplay) {
+      case "pending":
+        if (this.props.ideas.pending.length === 0) {
+          return (
+            <Typography align="center">
+              You do not currently have any pending ideas!
+            </Typography>
+          );
+        }
+        return this.props.ideas.pending.map((idea, index) => (
+          <Grid key={index} item xs={12} sm={6} md={3}>
+            <IdeaCard idea={idea} cardType={this.state.cardTypeDisplay} />
+          </Grid>
+        ));
+
+      case "draft":
+        if (this.props.ideas.draft.length === 0) {
+          return (
+            <Typography align="center">
+              You do not currently have any draft ideas!
+            </Typography>
+          );
+        }
+        return this.props.ideas.draft.map((idea, index) => (
+          <Grid key={index} item xs={12} sm={6} md={3}>
+            <IdeaCard idea={idea} cardType={this.state.cardTypeDisplay} />
+          </Grid>
+        ));
+
+      case "listed":
+        if (this.props.ideas.listed.length === 0) {
+          return (
+            <Typography align="center">
+              You do not currently have any listed ideas!
+            </Typography>
+          );
+        }
+        return this.props.ideas.listed.map((idea, index) => (
+          <Grid key={index} item xs={12} sm={6} md={3}>
+            <IdeaCard idea={idea} cardType={this.state.cardTypeDisplay} />
+          </Grid>
+        ));
+
+      case "bought":
+        if (this.props.ideas.bought.length === 0) {
+          return (
+            <Typography align="center">
+              You do not currently have any bought ideas!
+            </Typography>
+          );
+        }
+        return this.props.ideas.bought.map((idea, index) => (
+          <Grid key={index} item xs={12} sm={6} md={3}>
+            <IdeaCard idea={idea} cardType={this.state.cardTypeDisplay} />
+          </Grid>
+        ));
+    }
   }
   render() {
     return (
@@ -45,11 +112,13 @@ export default class InventoryPage extends React.Component {
           </ToggleButtonGroup>
         </Grid>
         <Grid
-          id="cardCointainer"
+          id="cardContainer"
           item
           container
           sx={{ mt: 1, p: 1, border: 1, width: "95vw" }}
-        ></Grid>
+        >
+          {this.currentCardDisplay()}
+        </Grid>
       </Grid>
     );
   }

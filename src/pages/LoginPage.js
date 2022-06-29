@@ -48,7 +48,7 @@ export default class LoginPage extends React.Component {
     const userInfo = {
       username: e.target[0].value,
       password: e.target[3].value,
-      accountBalance: 100,
+      accountBalance: 1000000,
     };
     this.props.logUserInfo(userInfo);
     //enter to MainPage
@@ -75,6 +75,7 @@ export default class LoginPage extends React.Component {
             >
               <Grid item xs={12}>
                 <StyledText
+                  autoComplete="off"
                   margin="normal"
                   label="Username"
                   placeholder="TommyShelby93"
