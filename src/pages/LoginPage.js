@@ -74,7 +74,7 @@ export default class LoginPage extends React.Component {
               direction="column"
             >
               <Grid item xs={12}>
-                <StyledText
+                <StyledTextField
                   autoComplete="off"
                   margin="normal"
                   label="Username"
@@ -92,7 +92,7 @@ export default class LoginPage extends React.Component {
                 />
               </Grid>
               <Grid item xs={12}>
-                <StyledText
+                <StyledTextField
                   margin="normal"
                   label="Password"
                   placeholder="QWEqwe123!@#"
@@ -119,7 +119,7 @@ export default class LoginPage extends React.Component {
                 />
               </Grid>
               <Grid item xs={12}>
-                <StyledText type="submit" value="Login/Signup" />
+                <StyledTextField type="submit" value="Login/Signup" />
               </Grid>
             </Grid>
           </StyledForm>
@@ -157,7 +157,7 @@ const StyledForm = styled.form`
   margin: 0 auto;
 `;
 
-export const StyledText = styled(TextField)`
+export const StyledTextField = styled(TextField)`
   & > .MuiOutlinedInput-root {
     & > .MuiOutlinedInput-input::placeholder {
       font-style: italic;

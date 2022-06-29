@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import EmojiObjectsOutlinedIcon from "@mui/icons-material/EmojiObjectsOutlined";
-import { StyledText } from "./LoginPage";
+import { StyledTextField } from "./LoginPage";
 import styled from "@emotion/styled";
 
 export default class NewIdeaPage extends React.Component {
@@ -97,7 +97,7 @@ export default class NewIdeaPage extends React.Component {
         <Grid item>
           <ResponsiveForm onSubmit={this.handleSubmit}>
             <Grid container direction="column" alignItems="center">
-              <StyledText
+              <StyledTextField
                 autoComplete="off"
                 onChange={this.handleChange}
                 required
@@ -111,7 +111,7 @@ export default class NewIdeaPage extends React.Component {
                 value={this.state.ideaNameValue}
                 error={this.state.ideaNameValue === "" ? true : false}
               />
-              <StyledText
+              <StyledTextField
                 onChange={this.handleChange}
                 required
                 type="text"
@@ -127,7 +127,7 @@ export default class NewIdeaPage extends React.Component {
                 value={this.state.ideaSummaryValue}
                 error={this.state.ideaSummaryValue === "" ? true : false}
               />
-              <StyledText
+              <StyledTextField
                 onChange={this.handleChange}
                 required
                 type="text"
@@ -144,7 +144,7 @@ export default class NewIdeaPage extends React.Component {
                 value={this.state.ideaDescriptionValue}
                 error={this.state.ideaDescriptionValue === "" ? true : false}
               />
-              <StyledText
+              <StyledTextField
                 onChange={this.handleChange}
                 type="text"
                 id="ideaPrice"
@@ -210,14 +210,14 @@ export default class NewIdeaPage extends React.Component {
   }
 }
 
-const ResponsiveForm = styled.form`
+export const ResponsiveForm = styled.form`
   @media only screen and (max-width: 800px) {
     max-width: 95vw;
     margin: 0 auto;
   }
 `;
 
-const StyledApply = styled(TextField)`
+export const StyledApply = styled(TextField)`
   & > .MuiOutlinedInput-root {
     & > .MuiOutlinedInput-input {
       padding: 10px;
@@ -225,7 +225,7 @@ const StyledApply = styled(TextField)`
   }
 `;
 
-const TermsAndConditionsText = styled(Typography)`
+export const TermsAndConditionsText = styled(Typography)`
   font-style: italic;
   font-size: 12px;
   @media only screen and (max-width: 400px) {
