@@ -41,6 +41,7 @@ export default class IdeaCard extends React.Component {
     this.openPriceDialog = this.openPriceDialog.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleEdit() {
@@ -65,6 +66,11 @@ export default class IdeaCard extends React.Component {
     this.setState({ newPriceValue: e.target.value });
   }
 
+  handleDelete() {
+    this.closeDialog();
+    this.props.removeIdea(this.props.idea.ideaName, "draft");
+  }
+
   handleBuy(e) {
     console.log(e);
     //deduct sale price
@@ -77,7 +83,7 @@ export default class IdeaCard extends React.Component {
     //move the idea to bought inventory
     this.props.buyIdea("bought", this.props.idea);
     this.closeDialog();
-    this.props.removeIdea(this.props.idea.ideaName);
+    this.props.removeIdea(this.props.idea.ideaName, "listed");
   }
 
   handlePricing() {
@@ -105,7 +111,7 @@ export default class IdeaCard extends React.Component {
       case "draft":
         return (
           <>
-            <Button onClick={this.closeDialog}>
+            <Button onClick={this.handleDelete}>
               <DeleteOutlineIcon />
             </Button>
             <Button onClick={this.handleEdit}>EDIT</Button>
@@ -115,9 +121,6 @@ export default class IdeaCard extends React.Component {
       case "listed":
         return (
           <>
-            <Button onClick={this.closeDialog}>
-              <DeleteOutlineIcon />
-            </Button>
             <Button onClick={this.openPriceDialog}>RE-PRICE</Button>
             <Dialog
               open={this.state.openPriceDialog}

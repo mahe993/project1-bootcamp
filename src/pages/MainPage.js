@@ -66,7 +66,7 @@ export default class MainPage extends React.Component {
     this.setState({ editIdea: "" });
   }
 
-  handleRemove(removeIdeaName) {
+  handleRemove(removeIdeaName, type) {
     let ideaIndex = 0;
     for (let i = 0; i < this.state.ideas.listed.length; i += 1) {
       if (this.state.ideas.listed[i].ideaName === removeIdeaName) {
@@ -74,9 +74,19 @@ export default class MainPage extends React.Component {
         break;
       }
     }
-    const newListedArr = [...this.state.ideas.listed];
-    newListedArr.splice(ideaIndex, 1);
-    this.setState({ ideas: { ...this.state.ideas, listed: newListedArr } });
+    switch (type) {
+      case "listed":
+        const newListedArr = [...this.state.ideas.listed];
+        newListedArr.splice(ideaIndex, 1);
+        this.setState({ ideas: { ...this.state.ideas, listed: newListedArr } });
+        break;
+
+      case "draft":
+        const newDraftArr = [...this.state.ideas.draft];
+        newDraftArr.splice(ideaIndex, 1);
+        this.setState({ ideas: { ...this.state.ideas, draft: newDraftArr } });
+        break;
+    }
   }
 
   changeListPrice(selectedIdea, newPrice) {
@@ -142,6 +152,7 @@ export default class MainPage extends React.Component {
             navigateTabs={this.changeTab}
             changeListingPrice={this.changeListPrice}
             editIdea={this.logEditIdeaData}
+            removeIdea={this.handleRemove}
           />
         );
 

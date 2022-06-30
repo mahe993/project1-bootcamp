@@ -59,6 +59,7 @@ export default class InventoryPage extends React.Component {
               cardType={this.state.cardTypeDisplay}
               navigateTabs={this.props.navigateTabs}
               editIdea={this.props.editIdea}
+              removeIdea={this.props.removeIdea}
             />
           </Grid>
         ));
