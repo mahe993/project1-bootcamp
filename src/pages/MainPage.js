@@ -1,7 +1,7 @@
 /* eslint-disable default-case */
 import React from "react";
 import UserInfo from "../components/UserInfo";
-import { Box, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import AccountMenu from "../drawers/AccountMenu";
 import MainTab from "../tabs/MainTab";
 import PatentsPage from "./PatentsPage";
@@ -9,11 +9,13 @@ import NewIdeaPage from "./NewIdeaPage";
 import InventoryPage from "./InventoryPage";
 import MarketplacePage from "./MarketplacePage";
 import styled from "@emotion/styled";
+import { createReducer } from "@reduxjs/toolkit";
 
 export default class MainPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      editIdea: "",
       tabDisplay: 0,
       ideas: {
         pending: [],
@@ -47,10 +49,21 @@ export default class MainPage extends React.Component {
     this.changeTab = this.changeTab.bind(this);
     this.handleIdea = this.handleIdea.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.changeListPrice = this.changeListPrice.bind(this);
+    this.logEditIdeaData = this.logEditIdeaData.bind(this);
+    this.deleteEditIdeaData = this.deleteEditIdeaData.bind(this);
   }
 
   changeTab(e, newTab) {
     this.setState({ tabDisplay: newTab });
+  }
+
+  logEditIdeaData(editIdeaData) {
+    this.setState({ editIdea: editIdeaData });
+  }
+
+  deleteEditIdeaData() {
+    this.setState({ editIdea: "" });
   }
 
   handleRemove(removeIdeaName) {
@@ -64,6 +77,28 @@ export default class MainPage extends React.Component {
     const newListedArr = [...this.state.ideas.listed];
     newListedArr.splice(ideaIndex, 1);
     this.setState({ ideas: { ...this.state.ideas, listed: newListedArr } });
+  }
+
+  changeListPrice(selectedIdea, newPrice) {
+    // let index = 0;
+    for (let i = 0; i < this.state.ideas.listed.length; i += 1) {
+      if (this.state.ideas.listed[i].ideaName === selectedIdea) {
+        this.state.ideas.listed[i].ideaPrice = newPrice;
+        this.setState({
+          ideas: {
+            ...this.state.ideas,
+            listed: [...this.state.ideas.listed],
+          },
+        });
+        // index = i;
+        break;
+      }
+    }
+    // createReducer(this.state.ideas, {
+    //   UPDATE_ITEM: (state) => {
+    //     state.listed[index].ideaPrice = newPrice;
+    //   },
+    // });
   }
 
   handleIdea(ideaType, idea) {
@@ -94,12 +129,20 @@ export default class MainPage extends React.Component {
             onSubmit={this.handleIdea}
             logUserInfo={this.props.logUserInfo}
             userInfo={this.props.userInfo}
+            editIdeaData={this.state.editIdea}
+            deleteEditIdeaData={this.deleteEditIdeaData}
           />
         );
 
       case 1:
         return (
-          <InventoryPage onSubmit={this.handleIdea} ideas={this.state.ideas} />
+          <InventoryPage
+            onSubmit={this.handleIdea}
+            ideas={this.state.ideas}
+            navigateTabs={this.changeTab}
+            changeListingPrice={this.changeListPrice}
+            editIdea={this.logEditIdeaData}
+          />
         );
 
       case 2:
@@ -120,12 +163,12 @@ export default class MainPage extends React.Component {
 
   render() {
     return (
-      <Grid container direction="column" sx={{ width: "100%" }}>
+      <Grid container direction="column" sx={{ width: "100vw" }}>
         <Grid item container>
-          <Grid item xs={6}>
+          <Grid item xs={8}>
             <UserInfo userInfo={this.props.userInfo} />
           </Grid>
-          <Grid item xs={5}></Grid>
+          <Grid item xs={3}></Grid>
           <Grid item xs={1} alignSelf="center">
             <AccountMenu logUserInfo={this.props.logUserInfo} />
           </Grid>

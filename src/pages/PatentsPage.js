@@ -1,23 +1,37 @@
 import React from "react";
 import HistoryEduOutlinedIcon from "@mui/icons-material/HistoryEduOutlined";
-import { Grid, Typography } from "@mui/material";
+import { Alert, Grid, Snackbar, Typography } from "@mui/material";
 import { StyledTextField } from "./LoginPage";
 import { ResponsiveForm, StyledApply } from "./NewIdeaPage";
 
 export default class PatentsPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      fullName: "",
+      contactNumber: "",
+      eMail: "",
+      remarks: "",
+      openSnackbar: false,
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.closeSnackbar = this.closeSnackbar.bind(this);
   }
 
   handleChange(e) {
     this.setState({ [e.target.id]: e.target.value });
   }
 
+  closeSnackbar() {
+    this.setState({ openSnackbar: false });
+  }
+
   handleSubmit(e) {
     e.preventDefault();
+    this.setState({
+      openSnackbar: true,
+    });
     this.setState({
       fullName: "",
       contactNumber: "",
@@ -80,7 +94,7 @@ export default class PatentsPage extends React.Component {
                 autoComplete="off"
                 onChange={this.handleChange}
                 required
-                type="text"
+                type="email"
                 id="eMail"
                 label="E-Mail"
                 focused
@@ -102,7 +116,7 @@ export default class PatentsPage extends React.Component {
                 minRows={10}
                 maxRows={10}
                 margin="normal"
-                placeholder="If there are any burning questions, feel free to shoot away!&#10;Do also let us know what you will be expecting of us!"
+                placeholder={`If there are any burning questions, feel free to shoot away!\n\nDo also let us know what you will be expecting of us!`}
                 value={this.state.remarks}
               />
               <StyledApply
@@ -110,6 +124,21 @@ export default class PatentsPage extends React.Component {
                 value="APPLY"
                 id="patentsApplyButton"
               />
+              <Snackbar
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                open={this.state.openSnackbar}
+                autoHideDuration={3000}
+                onClose={this.closeSnackbar}
+              >
+                <Alert
+                  variant="filled"
+                  onClose={this.closeSnackbar}
+                  severity="success"
+                  sx={{ borderRadius: 5 }}
+                >
+                  Our team will be in contact shortly!
+                </Alert>
+              </Snackbar>
             </Grid>
           </ResponsiveForm>
         </Grid>

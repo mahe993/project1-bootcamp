@@ -61,8 +61,13 @@ export default class LoginPage extends React.Component {
 
   render() {
     return (
-      <Grid container direction="column" alignItems="center" spacing={2}>
-        <Grid item sx={{ mt: "10%" }}>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        sx={{ width: "100vw", height: "100vh" }}
+      >
+        <Grid item sx={{ mt: "5%" }}>
           <StyledLogo fontSize="large" />
         </Grid>
         <Grid item>
@@ -162,6 +167,7 @@ export const StyledTextField = styled(TextField)`
     & > .MuiOutlinedInput-input::placeholder {
       font-style: italic;
       font-size: 14px;
+      white-space: pre-wrap;
     }
 
     & > .MuiOutlinedInput-input {

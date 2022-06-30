@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Alert,
-  Box,
   Grid,
   InputAdornment,
   Snackbar,
@@ -38,6 +37,21 @@ export default class NewIdeaPage extends React.Component {
       openSnackbar: false,
       snackbarMessage: "",
     });
+  }
+
+  componentDidMount() {
+    if (this.props.editIdeaData !== "") {
+      this.setState({
+        ideaNameValue: this.props.editIdeaData.ideaName,
+        ideaSummaryValue: this.props.editIdeaData.ideaSummary,
+        ideaDescriptionValue: this.props.editIdeaData.ideaDescription,
+        ideaPriceValue: this.props.editIdeaData.ideaPrice,
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.deleteEditIdeaData();
   }
 
   componentDidUpdate() {
@@ -123,7 +137,7 @@ export default class NewIdeaPage extends React.Component {
                 multiline
                 maxRows={2}
                 margin="normal"
-                placeholder="Enter a summary of your idea here!&#10;keep it short and digestable like a tagline!"
+                placeholder={`Enter a summary of your idea here!\nkeep it short and digestable like a tagline!`}
                 value={this.state.ideaSummaryValue}
                 error={this.state.ideaSummaryValue === "" ? true : false}
               />
@@ -140,7 +154,7 @@ export default class NewIdeaPage extends React.Component {
                 minRows={10}
                 maxRows={10}
                 margin="normal"
-                placeholder="Give a detailed explaination of your how idea works!&#10;Make your idea descriptions concise and to the point, best to use point forms as you go along describing each feature!"
+                placeholder={`Give a detailed explaination of your how idea works!\n\nMake your descriptions concise and to the point.\n\nBest to use point forms as you go along describing each feature!`}
                 value={this.state.ideaDescriptionValue}
                 error={this.state.ideaDescriptionValue === "" ? true : false}
               />
@@ -185,13 +199,14 @@ export default class NewIdeaPage extends React.Component {
                   type="submit"
                   value="APPLY"
                   id="applyButton"
-                  sx={{ mt: 1.5 }}
+                  sx={{ mt: 0.8 }}
                 />
               </Grid>
               <Snackbar
                 open={this.state.openSnackbar}
                 autoHideDuration={2000}
                 onClose={this.closeSnackbar}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
               >
                 <Alert
                   variant="filled"

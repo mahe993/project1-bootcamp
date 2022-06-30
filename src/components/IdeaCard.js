@@ -13,6 +13,7 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  InputAdornment,
   Typography,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -20,6 +21,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import CommentIcon from "@mui/icons-material/Comment";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import styled from "@emotion/styled";
+import { StyledTextField } from "../pages/LoginPage";
 
 export default class IdeaCard extends React.Component {
   constructor(props) {
@@ -27,11 +29,24 @@ export default class IdeaCard extends React.Component {
     this.state = {
       openDialog: false,
       likeButton: false,
+      openPriceDialog: false,
+      newPriceValue: "",
+      error: false,
     };
     this.handleDialog = this.handleDialog.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
     this.clickLike = this.clickLike.bind(this);
     this.handleBuy = this.handleBuy.bind(this);
+    this.handlePricing = this.handlePricing.bind(this);
+    this.openPriceDialog = this.openPriceDialog.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+  }
+
+  handleEdit() {
+    console.log(this.props.idea);
+    this.props.editIdea(this.props.idea);
+    this.props.navigateTabs(null, 0);
   }
 
   handleDialog() {
@@ -39,11 +54,15 @@ export default class IdeaCard extends React.Component {
   }
 
   closeDialog() {
-    this.setState({ openDialog: false });
+    this.setState({ openDialog: false, openPriceDialog: false });
   }
 
   clickLike() {
     this.setState({ likeButton: !this.state.likeButton });
+  }
+
+  handleChange(e) {
+    this.setState({ newPriceValue: e.target.value });
   }
 
   handleBuy(e) {
@@ -61,18 +80,35 @@ export default class IdeaCard extends React.Component {
     this.props.removeIdea(this.props.idea.ideaName);
   }
 
+  handlePricing() {
+    if (
+      isNaN(this.state.newPriceValue) ||
+      Number(this.state.newPriceValue) === 0 ||
+      this.state.newPriceValue === ""
+    ) {
+      return this.setState({ error: true });
+    }
+    this.setState({ openPriceDialog: false });
+    console.log(this.props.idea.ideaName, this.state.newPriceValue);
+    this.props.changeListingPrice(
+      this.props.idea.ideaName,
+      this.state.newPriceValue
+    );
+  }
+
+  openPriceDialog() {
+    this.setState({ openPriceDialog: true });
+  }
+
   dynamicDialogActionButtons() {
     switch (this.props.cardType) {
-      case "pending":
-        return <Button onClick={this.closeDialog}>EDIT</Button>;
-
       case "draft":
         return (
           <>
             <Button onClick={this.closeDialog}>
               <DeleteOutlineIcon />
             </Button>
-            <Button onClick={this.closeDialog}>EDIT</Button>
+            <Button onClick={this.handleEdit}>EDIT</Button>
           </>
         );
 
@@ -82,12 +118,49 @@ export default class IdeaCard extends React.Component {
             <Button onClick={this.closeDialog}>
               <DeleteOutlineIcon />
             </Button>
-            <Button onClick={this.closeDialog}>EDIT</Button>
+            <Button onClick={this.openPriceDialog}>RE-PRICE</Button>
+            <Dialog
+              open={this.state.openPriceDialog}
+              onClose={this.closeDialog}
+            >
+              <DialogContent>
+                <StyledTextField
+                  error={this.state.error}
+                  helperText={this.state.error ? "Enter a valid price!" : false}
+                  autoComplete="off"
+                  onChange={this.handleChange}
+                  type="number"
+                  id="newPriceValue"
+                  label="New Price"
+                  focused
+                  fullWidth={true}
+                  size="small"
+                  margin="normal"
+                  value={this.state.newPriceValue}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">$</InputAdornment>
+                    ),
+                  }}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.closeDialog}>Cancel</Button>
+                <Button onClick={this.handlePricing}>Submit</Button>
+              </DialogActions>
+            </Dialog>
           </>
         );
 
       case "bought":
-        return <Button onClick={this.closeDialog}>PATENTS</Button>;
+        return (
+          <>
+            <Button onClick={this.handleEdit}>EDIT</Button>
+            <Button onClick={() => this.props.navigateTabs(null, 3)}>
+              PATENTS
+            </Button>
+          </>
+        );
 
       case "price":
         return <Button onClick={this.handleBuy}>BUY</Button>;
@@ -144,16 +217,16 @@ export default class IdeaCard extends React.Component {
             <DialogContent dividers>
               <DialogContentText tabIndex={-1}>
                 <TextHeader>Idea Summary:</TextHeader>
-                <Typography>
+                <WhiteSpaceContent>
                   {this.props.idea.ideaSummary}
                   <br />
                   <br />
                   Cras mattis consectetur purus sit amet fermentum. Cras justo
                   odio, dapibus ac facilisis in, egestas eget quam.
-                </Typography>
+                </WhiteSpaceContent>
                 <br />
                 <TextHeader>Idea Description:</TextHeader>
-                <Typography>
+                <WhiteSpaceContent>
                   {this.props.idea.ideaDescription}
                   <br />
                   <br />
@@ -161,7 +234,7 @@ export default class IdeaCard extends React.Component {
                   odio, dapibus ac facilisis in, egestas eget quam. Morbi leo
                   risus, porta ac consectetur ac, vestibulum at eros. Praesent
                   commodo cursus magna, vel scelerisque nisl consectetur et.
-                </Typography>
+                </WhiteSpaceContent>
                 <br />
                 <TextHeader>Price:</TextHeader>
                 <Typography>${this.props.idea.ideaPrice}</Typography>
@@ -193,4 +266,8 @@ const LikedIcon = styled(FavoriteIcon)`
 const FlexCard = styled(Card)`
   display: flex;
   flex-direction: column;
+`;
+
+export const WhiteSpaceContent = styled(Typography)`
+  white-space: pre-wrap;
 `;

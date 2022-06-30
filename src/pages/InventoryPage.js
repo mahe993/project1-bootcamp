@@ -54,7 +54,12 @@ export default class InventoryPage extends React.Component {
         }
         return this.props.ideas.draft.map((idea, index) => (
           <Grid key={index} item xs={12} sm={6} md={3}>
-            <IdeaCard idea={idea} cardType={this.state.cardTypeDisplay} />
+            <IdeaCard
+              idea={idea}
+              cardType={this.state.cardTypeDisplay}
+              navigateTabs={this.props.navigateTabs}
+              editIdea={this.props.editIdea}
+            />
           </Grid>
         ));
 
@@ -68,7 +73,11 @@ export default class InventoryPage extends React.Component {
         }
         return this.props.ideas.listed.map((idea, index) => (
           <Grid key={index} item xs={12} sm={6} md={3}>
-            <IdeaCard idea={idea} cardType={this.state.cardTypeDisplay} />
+            <IdeaCard
+              idea={idea}
+              cardType={this.state.cardTypeDisplay}
+              changeListingPrice={this.props.changeListingPrice}
+            />
           </Grid>
         ));
 
@@ -82,7 +91,12 @@ export default class InventoryPage extends React.Component {
         }
         return this.props.ideas.bought.map((idea, index) => (
           <Grid key={index} item xs={12} sm={6} md={3}>
-            <IdeaCard idea={idea} cardType={this.state.cardTypeDisplay} />
+            <IdeaCard
+              idea={idea}
+              cardType={this.state.cardTypeDisplay}
+              navigateTabs={this.props.navigateTabs}
+              editIdea={this.props.editIdea}
+            />
           </Grid>
         ));
     }
