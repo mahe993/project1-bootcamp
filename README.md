@@ -3,11 +3,11 @@
 Ideas Market
 
 - An app where users can come up with ideas and sell them on a marketplace.
-- Each idea costs $10 to apply.
+- Each idea costs $10 to apply (this is a threshold to ensure quality submissions)
 - Each idea will be reviewed independently before being approved.
-- If the sale price of the idea is listed at $0, no reviews will be done and the idea will be saved as a draft and will not be listed on the marketplace.
+- If the sale price of the idea is listed at $0, idea will be saved as a draft and will not be considered an application.
 - If the idea is approved, all patents/copyrights will be handled and held by Ideas Market.
-- The buyer of the idea holds the idea as a draft, and can make changes/relist the idea to the marketplace at a different price.
+- The buyer of an idea can make changes/relist the idea to the marketplace at a different price.
 - Relisting of ideas are considered new ideas and will have to go through the application process as if it is a new idea.
 - The buyer of the idea can act on the idea by applying for copyrights/patents and then conducting business thereafter.
 - Ideas Market team will contact buyers applying for copyrights/patents for in-depth discussion on taking the business further.
