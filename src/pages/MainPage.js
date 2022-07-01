@@ -90,17 +90,10 @@ export default class MainPage extends React.Component {
   }
 
   changeListPrice(selectedIdea, newPrice) {
-    // let index = 0;
+    let index = 0;
     for (let i = 0; i < this.state.ideas.listed.length; i += 1) {
       if (this.state.ideas.listed[i].ideaName === selectedIdea) {
-        this.state.ideas.listed[i].ideaPrice = newPrice;
-        this.setState({
-          ideas: {
-            ...this.state.ideas,
-            listed: [...this.state.ideas.listed],
-          },
-        });
-        // index = i;
+        index = i;
         break;
       }
     }
@@ -109,6 +102,15 @@ export default class MainPage extends React.Component {
     //     state.listed[index].ideaPrice = newPrice;
     //   },
     // });
+
+    this.setState((prev) => {
+      let temp = {
+        ...prev,
+        ideas: { ...prev.ideas, listed: [...prev.ideas.listed] },
+      };
+      temp.ideas.listed[index].ideaPrice = newPrice;
+      return temp;
+    });
   }
 
   handleIdea(ideaType, idea) {
